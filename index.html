@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Очередь</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Очередь</h1>
+    <input type="text" id="userInput" placeholder="Введите команду">
+    <button onclick="handleInput()">Отправить</button>
+
+    <p id="message"></p>
+
+    <h2>Текущая очередь:</h2>
+    <ul id="queueList"></ul>
+
+    <script>
+        let l1 = [];
+
+        function handleInput() {
+            const input = document.getElementById('userInput').value.trim();
+            const message = document.getElementById('message');
+            message.textContent = '';
+            let name = '';
+
+            if (input.startsWith('Кто')) {
+                // Пример: "Кто последний - Петров."
+                const parts = input.split('-');
+                if (parts.length > 1) {
+                    name = parts[1].replace('.', '').trim();
+                    l1.push(name);
+                    message.textContent = `Добавлен(а) ${name} в конец очереди.`;
+                }
+            } else if (input.startsWith('Я только спросить! Я -')) {
+                // Пример: "Я только спросить! Я - Сидоров."
+                const parts = input.split('Я -');
+                if (parts.length > 1) {
+                    name = parts[1].replace('.', '').trim();
+                    l1.unshift(name);
+                    message.textContent = `${name} только спросить — встал(а) в начало очереди.`;
+                }
+            } else if (input.startsWith('Я')) {
+                // Пример: "Я Смирнов."
+                const words = input.split(' ');
+                if (words.length > 1) {
+                    name = words[1].replace('.', '').trim();
+                    l1.push(name);  // ВСТАЁТ В КОНЕЦ
+                    message.textContent = `${name} добавлен(а) в конец очереди.`;
+                }
+            } else if (input === 'Следующий!') {
+                if (l1.length > 0) {
+                    const next = l1.shift();
+                    message.textContent = `Заходит ${next}!`;
+                } else {
+                    message.textContent = 'В очереди никого нет.';
+                }
+            } else {
+                message.textContent = 'Неверная команда.';
+            }
+
+            updateQueue();
+            document.getElementById('userInput').value = '';
+        }
+
+        function updateQueue() {
+            const queueList = document.getElementById('queueList');
+            queueList.innerHTML = '';
+            l1.forEach(person => {
+                const li = document.createElement('li');
+                li.textContent = person;
+                queueList.appendChild(li);
+            });
+        }
+    </script>
+</body>
+</html>
