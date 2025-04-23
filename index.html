@@ -2,19 +2,30 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Очередь</title>
+    <title>NAVBATIM</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Очередь</h1>
-    <input type="text" id="userInput" placeholder="Введите команду">
-    <button onclick="handleInput()">Отправить</button>
+    <nav class="header__nav">
+        <div class="container nav-contain">
+            <div class="header__nav-logo">
+                <img class="header_logo" src="logo.jpg" alt="">
+            </div>
+            <h1 class="header_text">Endi kutishning hojati yo'q!!!</h1>
+        </div>
+    </nav>
+    <main>
+    <h1 class="main_text">Navbat</h1>
+    <input class="input" type="text" id="userInput" placeholder="Buyruqni kiriting">
+    
+    <button class='button' onclick="handleInput()">Yuborish</button>
+    <div class="box">
+    <p class="outout_teext" id="message"></p>
 
-    <p id="message"></p>
-
-    <h2>Текущая очередь:</h2>
-    <ul id="queueList"></ul>
-
+    <h2 class="main_bottom_text"> Joriy navbat:</h2>
+    <ul class="list" id="queueList"></ul>
+</div>
+</main>
     <script>
         let l1 = [];
 
@@ -25,38 +36,35 @@
             let name = '';
 
             if (input.startsWith('Кто')) {
-                // Пример: "Кто последний - Петров."
                 const parts = input.split('-');
                 if (parts.length > 1) {
                     name = parts[1].replace('.', '').trim();
                     l1.push(name);
-                    message.textContent = `Добавлен(а) ${name} в конец очереди.`;
+                    message.textContent = `${name} navbat oxiriga qo'shildi.`;
                 }
-            } else if (input.startsWith('Я только спросить! Я -')) {
-                // Пример: "Я только спросить! Я - Сидоров."
-                const parts = input.split('Я -');
+            } else if (input.startsWith("Men faqat so'rayman! Men -")) {
+                const parts = input.split('Men -');
                 if (parts.length > 1) {
                     name = parts[1].replace('.', '').trim();
                     l1.unshift(name);
-                    message.textContent = `${name} только спросить — встал(а) в начало очереди.`;
+                    message.textContent = `${name} faqat so'rang-men navbatning boshida turdim.`;
                 }
-            } else if (input.startsWith('Я')) {
-                // Пример: "Я Смирнов."
+            } else if (input.startsWith('Men')) {
                 const words = input.split(' ');
                 if (words.length > 1) {
                     name = words[1].replace('.', '').trim();
-                    l1.push(name);  // ВСТАЁТ В КОНЕЦ
-                    message.textContent = `${name} добавлен(а) в конец очереди.`;
+                    l1.push(name);  
+                    message.textContent = `${name} navbatning oxiriga qo'shildi.`;
                 }
-            } else if (input === 'Следующий!') {
+            } else if (input === 'Keyingi!') {
                 if (l1.length > 0) {
                     const next = l1.shift();
-                    message.textContent = `Заходит ${next}!`;
+                    message.textContent = `${next} keladi!`;
                 } else {
-                    message.textContent = 'В очереди никого нет.';
+                    message.textContent = "Navbatda hech kim yo'q.";
                 }
             } else {
-                message.textContent = 'Неверная команда.';
+                message.textContent = "Noto'g'ri buyruq.";
             }
 
             updateQueue();
